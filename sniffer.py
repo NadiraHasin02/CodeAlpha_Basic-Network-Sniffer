@@ -1,4 +1,5 @@
 from scapy.all import *
+from scapy.layers.inet6 import IPv6
 
 def process_packet(packet):
     print("\n" + "=" * 60)
