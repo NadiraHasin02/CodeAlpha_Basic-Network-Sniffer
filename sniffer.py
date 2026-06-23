@@ -1,38 +1,32 @@
-from scapy.all import sniff, IP, TCP, UDP, ICMP, Raw
+from scapy.all import *
 
 def process_packet(packet):
+    print("\n" + "=" * 60)
 
-    print("\n" + "=" * 50)
+    if IP in packet:
+        print("Packet Captured")
+        print(f"Source IP      : {packet[IP].src}")
+        print(f"Destination IP : {packet[IP].dst}")
 
-    if packet.haslayer(IP):
-
-        src_ip = packet[IP].src
-        dst_ip = packet[IP].dst
-
-        print(f"Source IP      : {src_ip}")
-        print(f"Destination IP : {dst_ip}")
-
-        if packet.haslayer(TCP):
+        if TCP in packet:
             print("Protocol       : TCP")
-            print(f"Source Port    : {packet[TCP].sport}")
-            print(f"Destination Port : {packet[TCP].dport}")
 
-        elif packet.haslayer(UDP):
+        elif UDP in packet:
             print("Protocol       : UDP")
-            print(f"Source Port    : {packet[UDP].sport}")
-            print(f"Destination Port : {packet[UDP].dport}")
 
-        elif packet.haslayer(ICMP):
+        elif ICMP in packet:
             print("Protocol       : ICMP")
 
         print(f"Packet Length  : {len(packet)} bytes")
 
-        if packet.haslayer(Raw):
-            payload = packet[Raw].load
-            print("Payload Data:")
-            print(payload[:100])
+        print("Summary:")
+        print(packet.summary())
 
-print("Starting Network Sniffer...")
-print("Press CTRL+C to stop.\n")
+    else:
+        print("Non-IP Packet")
+        print(packet.summary())
+
+print("=== NETWORK SNIFFER STARTED ===")
+print("Listening for packets...\n")
 
 sniff(prn=process_packet, store=False)
