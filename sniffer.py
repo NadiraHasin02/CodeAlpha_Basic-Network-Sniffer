@@ -5,9 +5,14 @@ def process_packet(packet):
     print("\n" + "=" * 60)
 
     if IP in packet:
-        print("Packet Captured")
-        print(f"Source IP      : {packet[IP].src}")
-        print(f"Destination IP : {packet[IP].dst}")
+    print("IPv4 Packet")
+    print(f"Source IP      : {packet[IP].src}")
+    print(f"Destination IP : {packet[IP].dst}")
+
+elif IPv6 in packet:
+    print("IPv6 Packet")
+    print(f"Source IP      : {packet[IPv6].src}")
+    print(f"Destination IP : {packet[IPv6].dst}")
 
         if TCP in packet:
             print("Protocol       : TCP")
